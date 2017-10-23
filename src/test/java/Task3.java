@@ -101,12 +101,10 @@ public class Task3 extends BaseTest{
     public void fillCarFields(){
         for(Map.Entry<String, String> entry : pathAndFieldOfCar.entrySet()){
             fillField(By.xpath(entry.getKey()), entry.getValue());
-            if (entry.getValue() == "Москва и область")
-                clickAt(By.xpath("//input[@data-test-name='ProductionYear']"));
-            if (entry.getValue() == "Mazda 3") {
-                clickAt(By.xpath("//input[@data-test-name='ProductionYear']"));
-                waiting(By.xpath("//span[@class='text-uppercase'][text()=' Автомобиль ']"));
-            }
+            // симуляция ентер
+            // вейт
+            // //div[@role='option']/strong[contains(@class, 'tttt')]
+
         }
         waiting(By.xpath("//input[@name='ko_unique_2']"));
         clickAt(By.xpath("//input[@name='ko_unique_2']"));
