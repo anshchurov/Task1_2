@@ -32,4 +32,10 @@ public class BaseTest {
         wait.until(ExpectedConditions.visibilityOf(
                 driver.findElement(locator)));
     }
+
+
+    protected void fillField(By locator, String value){
+        driver.findElement(locator).clear();
+        driver.findElement(locator).sendKeys(value);
+    }
 }

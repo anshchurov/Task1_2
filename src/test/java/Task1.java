@@ -55,10 +55,6 @@ public class Task1 extends BaseTest{
 
 
 
-    private void fillField(By locator, String value){
-        driver.findElement(locator).clear();
-        driver.findElement(locator).sendKeys(value);
-    }
 
     // метод для создания коллекции name - value
     private void createFieldValues(){

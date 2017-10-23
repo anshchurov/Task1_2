@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Task2 extends BaseTest {
-    private Map<String, String> pathAndField = new HashMap<String, String>();
 
     @Test
     public void insuranceTask() throws Exception {
