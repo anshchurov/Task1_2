@@ -14,10 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Task1 extends BaseTest{
     private Map<String, String> pathAndField = new HashMap<String, String>();
 
-
+    @Rule
+    public RuleAllTest ruleForEach = new RuleAllTest(driver);
 
     @Test
     public void insuranceTask() throws Exception {
+        driver = ruleForEach.getDriver();
+        baseUrl = "http://www.sberbank.ru/ru/person/";
         driver.get(baseUrl + "/");
         wait = new WebDriverWait(driver, 5, 1000);
         driver.findElement(By.xpath("(//span[contains(text(), 'Застраховать себя')])[1]")).click();

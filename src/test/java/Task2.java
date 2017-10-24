@@ -13,8 +13,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Task2 extends BaseTest {
 
+    @Rule
+    public RuleAllTest ruleForEach = new RuleAllTest(driver);
+
     @Test
     public void insuranceTask() throws Exception {
+        driver = ruleForEach.getDriver();
+        baseUrl = "http://www.sberbank.ru/ru/person/";
         driver.get(baseUrl + "/");
         wait = new WebDriverWait(driver, 5, 1000);
 
