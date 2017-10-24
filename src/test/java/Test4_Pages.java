@@ -22,7 +22,13 @@ public class Test4_Pages {
     driver.get("https://www.rgs.ru/");
 
     MainPage main = new MainPage(driver);
-    main.openKasko().enterCalc().fillCarFields().checkCarFields().fillDriverFields().checkDriverFields().lastSteps();
+    main.openKasko()
+            .enterCalc()
+            .fillCarFields()
+            .checkCarFields()
+            .fillDriverFields()
+            .checkDriverFields()
+            .lastSteps();
 
 }
 
