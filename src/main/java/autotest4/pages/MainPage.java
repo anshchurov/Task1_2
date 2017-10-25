@@ -1,4 +1,4 @@
-package pages;
+package autotest4.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
