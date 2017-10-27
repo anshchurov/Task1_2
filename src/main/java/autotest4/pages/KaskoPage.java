@@ -1,5 +1,6 @@
 package autotest4.pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,10 @@ public class KaskoPage extends BasePage{
         this.driver = driver;
     }
 
+    public KaskoPage() {
+        PageFactory.initElements(driver, this);
+    }
+
     @FindBy(xpath = "//a[@class='btn btn-brand text-uppercase']")
     private WebElement calcBtn;
 
@@ -20,5 +25,14 @@ public class KaskoPage extends BasePage{
         wait = new WebDriverWait(driver, 5, 1000);
         click(calcBtn);
         return new CalcPage(driver);
+    }
+
+    public void checkCalc(){
+        Assert.assertEquals("Кнопка 'калькулятор' отсутствует!",
+                calcBtn.getAttribute("text()"), "Калькулятор каско");
+    }
+
+    public void chooseCalc(){
+        click(calcBtn);
     }
 }

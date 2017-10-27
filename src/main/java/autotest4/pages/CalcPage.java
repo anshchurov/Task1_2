@@ -8,11 +8,18 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CalcPage extends BasePage{
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    public CalcPage(WebDriver driver){
+public class CalcPage extends BasePage {
+
+    public CalcPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
+    }
+
+    public CalcPage() {
+        PageFactory.initElements(driver, this);
     }
 
     // check text 'calc online'
@@ -71,6 +78,9 @@ public class CalcPage extends BasePage{
     @FindBy(xpath = "//input[@name='ko_unique_2']/parent::label/span")
     private WebElement v1_6InListIn;
 
+    //input for V1/6 for checking
+    @FindBy(xpath = "//input[@name='ko_unique_2']")
+    private WebElement v1_engine;
     // input of transmission
     @FindBy(xpath = "//input[@name='ko_unique_20']")
     private WebElement transmissionIn;
@@ -114,9 +124,130 @@ public class CalcPage extends BasePage{
     @FindBy(xpath = "(//input[@data-test-name='BirthDate'])[2]")
     private WebElement birthDayFieldIns;
 
+    public void fillFields(String fieldName, String value) throws InterruptedException {
+        switch (fieldName) {
+            case "Регион проживания":
+                fillField(regionField, value);
+                break;
+            case "Марка и модель":
+                fillField(markCarField, value);
+                wait.until(ExpectedConditions.attributeToBe(
+                        carList, "class", "tt-menu tt-open"));
+                Thread.sleep(500);
+                break;
+            case "Год выпуска":
+                fillField(prodYearField, value);
+                break;
+            case "VIN":
+                fillField(vinField, value);
+                break;
+            case "Пробег":
+                fillField(mieageField, value);
+                break;
+            case "Двигатель":
+                click(v1_6InListIn);
+                break;
+            case "ФИО владельца":
+                waiting(fioFieldForCar);
+                fillField(fioFieldForCar, "Человеков Обыкновений Ездячев");
+                break;
+            case "Дата рождения":
+                fillField(birthDayField, "10.10.1981");
+                break;
+            case "Водительское удостоверение":
+                fillField(driverLicenseField, "0102 001259");
+                break;
+            case "Дата начала стажа":
+                fillField(drivingExpStartDayField, "11.11.1999");
+                break;
+            case "Серия и номер":
+                fillField(passportField, "1214 153657");
+                break;
+            case "является страхователем":
+                isOwnerIn.click();
+                break;
+            case "ФИО страхователя":
+                fillField(fioFieldForCarIns, "Кто То Непонятный");
+                break;
+            case "Дата рождения страхователся":
+                fillField(birthDayFieldIns, "09.09.1980");
+                break;
+            default:
+                throw new AssertionError("Поле '" + fieldName + "' не объявлено на странице");
+        }
+    }
 
+    public String getFieldValue(String fieldName) throws InterruptedException {
+        switch (fieldName) {
+            case "Регион проживания":
+                return regionField.getAttribute("value");
+            case "Марка и модель":
+                return markCarField.getAttribute("value");
+            case "Год выпуска":
+                return prodYearField.getAttribute("value");
+            case "VIN":
+                vinField.getAttribute("value");
+            case "Пробег":
+                return mieageField.getAttribute("value");
+            case "Двигатель":
+                return v1_6InListIn.getAttribute("data-bind").contains("checked: checked")
+                        ? "checked" : "unchecked";
+            case "Коробка":
+                return transmissionIn.getAttribute("data-bind").contains("checked: checked")
+                        ? "checked" : "unchecked";
+            case "Модификация":
+                return mod1_6In.getAttribute("data-bind").contains("checked: checked")
+                        ? "checked" : "unchecked";
+            case "ФИО владельца":
+                return fioFieldForCar.getAttribute("value");
+            case "Дата рождения":
+                return birthDayField.getAttribute("value");
+            case "Водительское удостоверение":
+                return driverLicenseField.getAttribute("value");
+            case "Дата начала стажа":
+                return drivingExpStartDayField.getAttribute("value");
+            case "Серия и номер":
+                return passportField.getAttribute("value");
+            case "является страхователем":
+                return isOwnerIn.getAttribute("data-bind").contains("checked: checked")
+                        ? "checked" : "unchecked";
+            case "ФИО страхователя":
+                return fioFieldForCarIns.getAttribute("value");
+            case "Дата рождения страхователся":
+                return birthDayFieldIns.getAttribute("value");
+            default:
+                throw new AssertionError("Поле '" + fieldName + "' не объявлено на странице");
+        }
+    }
+
+    public void checkField(String fieldName, String value) throws InterruptedException {
+        assertEquals(String.format("Поле %s заполнено неверно!", fieldName),
+                getFieldValue(fieldName), value);
+    }
+
+    public void pressAgree() throws InterruptedException {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", agreeIn);
+        Thread.sleep(500);
+        agreeIn.click();
+    }
+
+    public void calcKasko(){
+        click(calBtn);
+    }
+
+    public void checkErrorMessage(){
+        waiting(checkingHumanityText);
+        checkField(checkingHumanityText, "Подтвердите, что вы не робот");
+    }
+
+
+
+
+
+  /*
     public CalcPage fillCarFields() throws InterruptedException {
         wait = new WebDriverWait(driver, 5, 1000);
+        waiting(regionField);
         fillField(regionField, "Москва и область");
         Thread.sleep(500);
         fillField(markCarField, "Mazda 3");
@@ -131,7 +262,7 @@ public class CalcPage extends BasePage{
         return this;
     }
 
-    public CalcPage checkCarFields(){
+    public CalcPage checkCarFields() {
         checkField(regionField, "Москва и область");
         checkField(markCarField, "Mazda 3");
         checkField(prodYearField, "2017");
@@ -142,7 +273,8 @@ public class CalcPage extends BasePage{
         return this;
     }
 
-    public CalcPage fillDriverFields(){
+    public CalcPage fillDriverFields() {
+        waiting(fioFieldForCar);
         fillField(fioFieldForCar, "Человеков Обыкновений Ездячев");
         fillField(birthDayField, "10.10.1981");
         fillField(driverLicenseField, "0102 001259");
@@ -153,7 +285,7 @@ public class CalcPage extends BasePage{
         return this;
     }
 
-    public CalcPage checkDriverFields(){
+    public CalcPage checkDriverFields() {
         checkField(fioFieldForCar, "Человеков Обыкновений Ездячев");
         checkField(birthDayField, "10.10.1981");
         checkField(driverLicenseField, "0102 001259");
@@ -178,7 +310,6 @@ public class CalcPage extends BasePage{
         checkField(checkingHumanityText, "Подтвердите, что вы не робот");
         return this;
     }
-
-
+*/
 
 }

@@ -18,7 +18,6 @@ public class Test4_Pages {
     public void testKasko() throws InterruptedException {
     WebDriver driver = rule.getDriver();
 
-    driver.get(properties.getProperty("app.url"));
 
     MainPage main = new MainPage(driver);
     main.openKasko()

@@ -11,6 +11,14 @@ public class MainPage extends BasePage{
     public MainPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         this.driver = driver;
+        wait = new WebDriverWait(driver, 5, 1000);
+
+    }
+
+    public MainPage() {
+        PageFactory.initElements(driver, this);
+        wait = new WebDriverWait(driver, 5, 1000);
+
     }
 
     @FindBy(xpath = "//A[@href='#'][contains(text(), 'Страхование')]")
@@ -19,10 +27,18 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//li[@class='adv-analytics-navigation-line3-link']/a[text()='Каско']")
     private WebElement kaskoInsurance;
 
+    public void selectInsurance(){
+        click(dataToggleInsuranse);
+    }
+
+    public void selectKasko(){
+        click(kaskoInsurance);
+    }
+
+    /*
     public KaskoPage openKasko(){
-        wait = new WebDriverWait(driver, 5, 1000);
         click(dataToggleInsuranse);
         click(kaskoInsurance);
         return new KaskoPage(driver);
-    }
+    }*/
 }
