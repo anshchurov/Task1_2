@@ -25,7 +25,7 @@ public class ScenarioSteps {
         kaskoSteps.checkCalc();
     }
 
-    @When("^Нажато на 'Калькулятор КАСКО'$")
+    @When("^Нажать на 'Калькулятор КАСКО'$")
     public void clickAtKASKO(){
         kaskoSteps.chooseCalc();
     }
@@ -42,5 +42,19 @@ public class ScenarioSteps {
                 .forEach((field, value) -> calcSteps.checkCurrentField(field, value));
     }
 
+    @When("^Согласиться на обработку персональных данных$")
+    public void applyPersDataProc(){
+        calcSteps.pressAgree();
+    }
+
+    @When("Нажать на Рассчиатть КАСКО")
+    public void calcKasko(){
+        calcSteps.calcKasko();
+    }
+
+    @When("Проверка ошибки заполнения")
+    public void checkError(){
+        calcSteps.checkError();
+    }
 
 }

@@ -1,5 +1,6 @@
 package autotest4.pages;
 
+import autotest4.steps.BaseStep;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,6 +16,8 @@ public class KaskoPage extends BasePage{
     }
 
     public KaskoPage() {
+        wait = new WebDriverWait(driver, 5, 1000);
+        driver = BaseStep.getDriver();
         PageFactory.initElements(driver, this);
     }
 
@@ -22,14 +25,14 @@ public class KaskoPage extends BasePage{
     private WebElement calcBtn;
 
     public CalcPage enterCalc(){
-        wait = new WebDriverWait(driver, 5, 1000);
         click(calcBtn);
         return new CalcPage(driver);
     }
 
     public void checkCalc(){
+        waiting(calcBtn);
         Assert.assertEquals("Кнопка 'калькулятор' отсутствует!",
-                calcBtn.getAttribute("text()"), "Калькулятор каско");
+                calcBtn.getText(), "КАЛЬКУЛЯТОР КАСКО");
     }
 
     public void chooseCalc(){

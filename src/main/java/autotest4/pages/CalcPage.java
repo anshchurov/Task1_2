@@ -1,5 +1,6 @@
 package autotest4.pages;
 
+import autotest4.steps.BaseStep;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,8 @@ public class CalcPage extends BasePage {
     }
 
     public CalcPage() {
+
+        driver = BaseStep.getDriver();
         PageFactory.initElements(driver, this);
     }
 
@@ -128,6 +131,8 @@ public class CalcPage extends BasePage {
         switch (fieldName) {
             case "Регион проживания":
                 fillField(regionField, value);
+                Thread.sleep(500);
+                click(prodYearField);
                 break;
             case "Марка и модель":
                 fillField(markCarField, value);
@@ -145,26 +150,28 @@ public class CalcPage extends BasePage {
                 fillField(mieageField, value);
                 break;
             case "Двигатель":
-                click(v1_6InListIn);
+                if (value.equals("1"))
+                    click(v1_6InListIn);
                 break;
             case "ФИО владельца":
                 waiting(fioFieldForCar);
-                fillField(fioFieldForCar, "Человеков Обыкновений Ездячев");
+                fillField(fioFieldForCar, value);
                 break;
             case "Дата рождения":
-                fillField(birthDayField, "10.10.1981");
+                fillField(birthDayField, value);
                 break;
             case "Водительское удостоверение":
-                fillField(driverLicenseField, "0102 001259");
+                fillField(driverLicenseField, value);
                 break;
             case "Дата начала стажа":
-                fillField(drivingExpStartDayField, "11.11.1999");
+                fillField(drivingExpStartDayField, value);
                 break;
             case "Серия и номер":
-                fillField(passportField, "1214 153657");
+                fillField(passportField, value);
                 break;
             case "является страхователем":
-                isOwnerIn.click();
+                if (value.equals("1"))
+                    isOwnerIn.click();
                 break;
             case "ФИО страхователя":
                 fillField(fioFieldForCarIns, "Кто То Непонятный");
@@ -186,17 +193,17 @@ public class CalcPage extends BasePage {
             case "Год выпуска":
                 return prodYearField.getAttribute("value");
             case "VIN":
-                vinField.getAttribute("value");
+                return vinField.getAttribute("value");
             case "Пробег":
                 return mieageField.getAttribute("value");
             case "Двигатель":
-                return v1_6InListIn.getAttribute("data-bind").contains("checked: checked")
-                        ? "checked" : "unchecked";
+                return v1_6InListIn.getText().contains("1.6")
+                        ? "1" : "0";
             case "Коробка":
-                return transmissionIn.getAttribute("data-bind").contains("checked: checked")
-                        ? "checked" : "unchecked";
+                return transmissionIn.getText().contains("автоматическая")
+                        ? "1" : "0";
             case "Модификация":
-                return mod1_6In.getAttribute("data-bind").contains("checked: checked")
+                return mod1_6In.getText().contains("1.6i Active")
                         ? "checked" : "unchecked";
             case "ФИО владельца":
                 return fioFieldForCar.getAttribute("value");
@@ -209,8 +216,8 @@ public class CalcPage extends BasePage {
             case "Серия и номер":
                 return passportField.getAttribute("value");
             case "является страхователем":
-                return isOwnerIn.getAttribute("data-bind").contains("checked: checked")
-                        ? "checked" : "unchecked";
+                return isOwnerIn.getAttribute("data-bind").contains("unchecked")
+                        ? "0" : "1";
             case "ФИО страхователя":
                 return fioFieldForCarIns.getAttribute("value");
             case "Дата рождения страхователся":
@@ -231,11 +238,11 @@ public class CalcPage extends BasePage {
         agreeIn.click();
     }
 
-    public void calcKasko(){
+    public void calcKasko() {
         click(calBtn);
     }
 
-    public void checkErrorMessage(){
+    public void checkErrorMessage() {
         waiting(checkingHumanityText);
         checkField(checkingHumanityText, "Подтвердите, что вы не робот");
     }

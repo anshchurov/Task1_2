@@ -1,5 +1,6 @@
 package autotest4.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,8 +11,13 @@ import static org.junit.Assert.assertTrue;
 
 public class BasePage {
 
-    protected WebDriver driver;
-    protected Wait<WebDriver> wait;
+
+    public static WebDriver driver;
+    public static Wait<WebDriver> wait;
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
 
     public void waiting(WebElement element){
         wait.until(ExpectedConditions.visibilityOf(element));
